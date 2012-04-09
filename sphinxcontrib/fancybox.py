@@ -68,7 +68,6 @@ class LightboxDirective(Directive):
     option_spec = {
         'group': unicode,
 
-        'scale': float,
         'width': unicode,
         'height': unicode,
     }
@@ -79,16 +78,26 @@ class LightboxDirective(Directive):
         group = self.options.get('group', 'default')
 
         #no used at that moment
-        scale = self.options.get('scale', 0.1)
-        width = self.options.get('width', '150px')
-        height = self.options.get('height', '150px')
+        width = self.options.get('width', 
+                                 env.app.config.fancybox_thumbnail_width)
+        height = self.options.get('height', 
+                                  env.app.config.fancybox_thumbnail_height)
+
+
+        # parse nested content
+        description = nodes.paragraph()
+        content = nodes.paragraph()
+        content += [ nodes.Text("%s"%x) for x in self.content[1:]]
+        self.state.nested_parse(content, 
+                                0,
+                                description)
 
         lb = lightbox_node()
         lb.group = group
         lb.link = self.content[0]
-        lb.content = self.content[1:]
+        lb.content = description
+        lb.size = (width, height)
 
-        # parse nested content
         return [lb]
 
 
@@ -98,18 +107,22 @@ def visit_lightbox_node(self, node):
                                    REL='%s' % node.group,
                                    HREF=node.link,
                                    CLASS='fancybox',
-                                   TITLE=node.content[1:2],
-                                   ALT=node.content[1:2],
+                                   TITLE=node.content,
+                                   ALT=node.content,
                                   ),
                     )
-    self.body.append('<img src="%s" width="%s"/>' % (node.link, '100px'))
-    self.body.append('\n'.join(node.content))
+    self.body.append('<img src="%s" width="%s" height="%s" />' % (
+                                                                  node.link, 
+                                                                  node.size[0],
+                                                                  node.size[1]
+                                                                 )
+                    )
+    #self.body.append('\n'.join(node.content))
     self.body.append(js)
 
 
 def depart_lightbox_node(self, node):
     self.body.append('</a>')
-    pass
 
 
 def add_stylesheet(app):
@@ -156,7 +169,8 @@ def add_javascript_code(app, doctree, fromdocname):
 
 
 def setup(app):
-    #app.add_config_value('taglist_css',{},'env')
+    app.add_config_value('fancybox_thumbnail_width','150px','env')
+    app.add_config_value('fancybox_thumbnail_height','150px','env')
     app.add_node(lightbox_node,
                  html=(visit_lightbox_node, depart_lightbox_node),
                  #latex=(visit_lightbox_node, depart_lightbox_node),
