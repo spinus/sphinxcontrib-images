@@ -137,11 +137,12 @@ def copy_stylesheet(app, exception):
         return
     app.info('Copying fancybox stylesheets and js... ', nonl=True)
     import os
-    os.makedirs(os.path.abspath(os.path.join(app.builder.outdir,
-                                             '_static',
-                                             'fancybox')
-                               )
-               )
+    path = os.path.abspath(os.path.join(app.builder.outdir,
+                                        '_static',
+                                        'fancybox')
+                          )
+    if not os.path.exists(path):
+        os.makedirs(path)
 
     for FILE in CSS_FILES:
         copyfile(
