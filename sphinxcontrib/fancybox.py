@@ -155,6 +155,7 @@ def copy_stylesheet(app, exception):
         return
     app.info('Copying fancybox stylesheets and js... ', nonl=True)
     import os
+    #TODO: change _static to variable from config (something like that exists?)
     path = os.path.abspath(os.path.join(app.builder.outdir,
                                         '_static',
                                         'fancybox')
@@ -195,6 +196,7 @@ def setup(app):
     app.add_config_value('fancybox_config',{},'env')
     app.add_node(fancybox_node,
                  html=(visit_fancybox_node, depart_fancybox_node),
+                 #TODO: write fallback to non html output as image?
                  #latex=(visit_fancybox_node, depart_fancybox_node),
                  #text=(visit_fancybox_node, depart_fancybox_node),
                  #man=(visit_fancybox_node, depart_fancybox_node),
