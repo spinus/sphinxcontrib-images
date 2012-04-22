@@ -246,3 +246,10 @@ texinfo_documents = [
 fancybox_thumbnail_width='150px'
 fancybox_thumbnail_height='150px'
 fancybox_thumbnail_class=' '
+fancybox_config = {
+'transitionIn'  :   'elastic',
+        'transitionOut' :   'elastic',
+        'speedIn'       :   600, 
+        'speedOut'      :   200, 
+        'overlayShow'   :   'false'
+}
