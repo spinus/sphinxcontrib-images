@@ -1,10 +1,19 @@
 sphinxcontrib-fancybox's documentation
 ======================================
 
+README
+=======
+
 .. include:: ../../readme.rst
 
 Examples
 ========
+
+0 - fancybox remote link
+-------------------------------
+
+.. fancybox:: http://creoeninternet.com/wp-content/uploads/2011/06/wikipedia.png
+
 
 1 - fancybox non standard size
 -------------------------------
@@ -13,16 +22,20 @@ Examples
     :width: 300px
     :height: 100px
 
-2 - fancybox with admonition class
+2 - fancybox with additional class
 -----------------------------------
 
 .. fancybox:: img.jpg
-    :class: admonition
+    :class: someclass
 
     with css class
 
+
 3 - fancybox with description (markup)
 ---------------------------------------
+
+.. warning:: nested parsing of description is not working now, is rendered as 
+    plaintext
 
 .. fancybox:: img.jpg
     
