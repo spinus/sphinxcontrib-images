@@ -1,2 +1,2 @@
-recursive-include sphinxcontrib *.css
+include sphinxcontrib/fancybox/*
 include readme.rst
