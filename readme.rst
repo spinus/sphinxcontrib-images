@@ -38,6 +38,7 @@ fancybox:
 
         .. fancybox:: picture.png
 
+
     By default all images on one page are in the same group (you can navigate
     pressing `next` and `prev` buttons around this group).
     If you want to add picture to another group you have to set `group` 
@@ -46,6 +47,7 @@ fancybox:
         .. fancybox:: picture.png
             :group: group2
 
+
     You can change size of fancybox with 'width' and 'height' which are
     passed as you set it: ::
 
@@ -53,23 +55,38 @@ fancybox:
             :width: 100%
             :height: 2em
 
+
+    You can add some description which will be rendered as `title` attribute::
+
+        .. fancybox:: http://pictures.tld/picture.png
+
+            Some description
+
+
     If you not set 'width' and 'height', defaults values are gathered from 
     `conf.py`. There are two parameters which you can adjust: ::
 
         fancybox_thumbnail_width
         fancybox_thumbnail_height
 
+
     Additionally you can set another css class with 'class' argument to 
     `fancybox` directive or set `fancybox_thumbnail_class` to add css class to 
     all `fancybox` directives.
+
+    All fancybox JS config options you can pass as dict to `fancybox_config` in
+    `conf.py` too.
+
+    For examples please look to documentation conf.py.
 
 
 TODO
 ----
 
-* copy local files to _static, as image directive do
 * option to copying remote graphics as statics
 * fallback for non html output
+* nested parsing fix
+* JS should be handled only once, not on every image node
 * width and height parameters (currently the thumbnail is set to 100x100px) (DONE)
 * get default thumbnail size from config (DONE)
 
