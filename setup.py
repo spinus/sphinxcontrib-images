@@ -10,7 +10,7 @@ requires = ['Sphinx>=0.9']
 
 setup(
     name='sphinxcontrib-fancybox',
-    version='0.1',
+    version='0.2',
     url='http://github.com/spinus/sphinxcontrib-fancybox',
     download_url='http://pypi.python.org/pypi/sphinxcontrib-fancybox',
     license='BSD',
