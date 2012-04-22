@@ -46,13 +46,32 @@ fancybox:
         .. fancybox:: picture.png
             :group: group2
 
+    You can change size of fancybox with 'width' and 'height' which are
+    passed as you set it: ::
+
+        .. fancybox:: picture.png
+            :width: 100%
+            :height: 2em
+
+    If you not set 'width' and 'height', defaults values are gathered from 
+    `conf.py`. There are two parameters which you can adjust: ::
+
+        fancybox_thumbnail_width
+        fancybox_thumbnail_height
+
+    Additionally you can set another css class with 'class' argument to 
+    `fancybox` directive or set `fancybox_thumbnail_class` to add css class to 
+    all `fancybox` directives.
+
 
 TODO
 ----
 
+* copy local files to _static, as image directive do
+* option to copying remote graphics as statics
 * fallback for non html output
-* width and height parameters (currently the thumbnail is set to 100x100px)
-* get default thumbnail size from config
+* width and height parameters (currently the thumbnail is set to 100x100px) (DONE)
+* get default thumbnail size from config (DONE)
 
 
 Questions and suggestions
