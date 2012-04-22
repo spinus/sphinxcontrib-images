@@ -80,18 +80,36 @@ class FancyboxDirective(Directive):
         cls = self.options.get('class', 
                                   env.app.config.fancybox_thumbnail_class)
 
-
         # parse nested content
+        #TODO: something is broken here, not parsed as expected
         description = nodes.paragraph()
         content = nodes.paragraph()
         content += [ nodes.Text("%s"%x) for x in self.content]
-        self.state.nested_parse(self.content, 
+        self.state.nested_parse(content, 
                                 0,
                                 description)
 
         lb = fancybox_node()
         lb.group = group
-        lb.link = directives.uri(self.arguments[0])
+
+        #if link local or non local
+        if '://' in self.arguments[0].lower() or \
+           self.arguments[0].lower().startswith('http'): 
+
+            # if link is remote link
+
+            if env.app.config.fancybox_download_remote_images:
+                #TODO: download to _images maybe as sha1 name?
+                raise NotImplementedError('fancybox_download_remote_images '
+                                'is not working yey, please contribute :)')
+            else:
+                # put link
+                lb.link = directives.uri(self.arguments[0])
+
+        else:
+            # make local path
+            lb.link = directives.uri(os.path.join('_images',self.arguments[0]))
+
         lb.content = description
         lb.size = (width, height)
         lb.classes = cls
@@ -107,9 +125,8 @@ def visit_fancybox_node(self, node):
                                    REL='%s' % node.group,
                                    HREF=node.link,
                                    CLASS='fancybox '+node.classes,
-                                   # TODO: how render title as html but 
-                                   # do tooltip like text only
-                                   TITLE=node.content,
+                                   #TODO: nested parse not works at that moemnt
+                                   TITLE=node.content.astext(),
                                    ALT=node.content.astext(),
                                   ),
                     )
