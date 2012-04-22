@@ -7,6 +7,7 @@ from sphinx.environment import NoUri
 from sphinx.locale import _
 from sphinx.util.compat import Directive, make_admonition
 from sphinx.util.osutil import copyfile
+import json
 
 # Have no better idea how to include it at the end of the document.
 # Used to use 'build-resolved' signal, but if I want to add a Text node
@@ -17,14 +18,7 @@ from sphinx.util.osutil import copyfile
 js = r'''
 <script type="text/javascript">
     $(document).ready(function() {
-        $("a.fancybox").fancybox({
-            'titlePosition' :   'outside',
-            'transitionIn'  :   'elastic',
-            'transitionOut' :   'elastic',
-            'speedIn'       :   600,
-            'speedOut'      :   200,
-            'overlayShow'   :   true
-        });
+        $("a.fancybox").fancybox(%s);
     });
 </script>
 '''
@@ -101,6 +95,8 @@ class FancyboxDirective(Directive):
         lb.content = description
         lb.size = (width, height)
         lb.classes = cls
+        #TODO: handle it once, but where :)
+        lb.fancybox_config = env.app.config.fancybox_config
 
         return [lb]
 
@@ -123,7 +119,7 @@ def visit_fancybox_node(self, node):
                                                                   node.size[1]
                                                                  )
                     )
-    self.body.append(js)
+    self.body.append(js%(json.dumps(node.fancybox_config)))
 
 
 def depart_fancybox_node(self, node):
@@ -178,6 +174,8 @@ def setup(app):
     app.add_config_value('fancybox_thumbnail_width','150px','env')
     app.add_config_value('fancybox_thumbnail_height','150px','env')
     app.add_config_value('fancybox_thumbnail_class','','env')
+    app.add_config_value('fancybox_download_remote_images',False,'env')
+    app.add_config_value('fancybox_config',{},'env')
     app.add_node(fancybox_node,
                  html=(visit_fancybox_node, depart_fancybox_node),
                  #latex=(visit_fancybox_node, depart_fancybox_node),
