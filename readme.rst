@@ -5,6 +5,10 @@ Fancybox
 
 Fancybox is adaptation of `<http://fancybox.net/>`_ in version **1.3.4**.
 
+Documentation: `<http://spinus.github.com/sphinxcontrib-fancybox/>`_
+PYPI: `<http://spinus.github.com/sphinxcontrib-fancybox/>`_
+github: `<http://pypi.python.org/pypi/sphinxcontrib-fancybox/0.1>`_
+
 Installation
 ------------
 
