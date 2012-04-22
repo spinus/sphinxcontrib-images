@@ -59,17 +59,19 @@ IMG_FILES = (
 )
 
 
-class lightbox_node(nodes.General, nodes.Element):
+class fancybox_node(nodes.General, nodes.Element):
     pass
 
 
-class LightboxDirective(Directive):
+class FancyboxDirective(Directive):
     has_content = True
+    required_arguments = 1
     option_spec = {
         'group': unicode,
+        'class': unicode, #directives.class_option,
 
-        'width': unicode,
-        'height': unicode,
+        'width': directives.length_or_percentage_or_unitless,
+        'height': directives.length_or_unitless,
     }
 
     def run(self):
@@ -77,38 +79,42 @@ class LightboxDirective(Directive):
 
         group = self.options.get('group', 'default')
 
-        #no used at that moment
         width = self.options.get('width', 
                                  env.app.config.fancybox_thumbnail_width)
         height = self.options.get('height', 
                                   env.app.config.fancybox_thumbnail_height)
+        cls = self.options.get('class', 
+                                  env.app.config.fancybox_thumbnail_class)
 
 
         # parse nested content
         description = nodes.paragraph()
         content = nodes.paragraph()
-        content += [ nodes.Text("%s"%x) for x in self.content[1:]]
-        self.state.nested_parse(content, 
+        content += [ nodes.Text("%s"%x) for x in self.content]
+        self.state.nested_parse(self.content, 
                                 0,
                                 description)
 
-        lb = lightbox_node()
+        lb = fancybox_node()
         lb.group = group
-        lb.link = self.content[0]
+        lb.link = directives.uri(self.arguments[0])
         lb.content = description
         lb.size = (width, height)
+        lb.classes = cls
 
         return [lb]
 
 
-def visit_lightbox_node(self, node):
+def visit_fancybox_node(self, node):
     self.body.append(self.starttag(node,
                                    'a',
                                    REL='%s' % node.group,
                                    HREF=node.link,
-                                   CLASS='fancybox',
+                                   CLASS='fancybox '+node.classes,
+                                   # TODO: how render title as html but 
+                                   # do tooltip like text only
                                    TITLE=node.content,
-                                   ALT=node.content,
+                                   ALT=node.content.astext(),
                                   ),
                     )
     self.body.append('<img src="%s" width="%s" height="%s" />' % (
@@ -117,11 +123,10 @@ def visit_lightbox_node(self, node):
                                                                   node.size[1]
                                                                  )
                     )
-    #self.body.append('\n'.join(node.content))
     self.body.append(js)
 
 
-def depart_lightbox_node(self, node):
+def depart_fancybox_node(self, node):
     self.body.append('</a>')
 
 
@@ -172,15 +177,16 @@ def add_javascript_code(app, doctree, fromdocname):
 def setup(app):
     app.add_config_value('fancybox_thumbnail_width','150px','env')
     app.add_config_value('fancybox_thumbnail_height','150px','env')
-    app.add_node(lightbox_node,
-                 html=(visit_lightbox_node, depart_lightbox_node),
-                 #latex=(visit_lightbox_node, depart_lightbox_node),
-                 #text=(visit_lightbox_node, depart_lightbox_node),
-                 #man=(visit_lightbox_node, depart_lightbox_node),
-                 #texinfo=(visit_lightbox_node, depart_lightbox_node)
+    app.add_config_value('fancybox_thumbnail_class','','env')
+    app.add_node(fancybox_node,
+                 html=(visit_fancybox_node, depart_fancybox_node),
+                 #latex=(visit_fancybox_node, depart_fancybox_node),
+                 #text=(visit_fancybox_node, depart_fancybox_node),
+                 #man=(visit_fancybox_node, depart_fancybox_node),
+                 #texinfo=(visit_fancybox_node, depart_fancybox_node)
     )
 
-    app.add_directive('fancybox', LightboxDirective)
+    app.add_directive('fancybox', FancyboxDirective)
     #app.connect('doctree-resolved', add_javascript_code)
 
     app.connect('builder-inited', add_stylesheet)
