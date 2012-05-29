@@ -7,6 +7,7 @@ from sphinx.environment import NoUri
 from sphinx.locale import _
 from sphinx.util.compat import Directive, make_admonition
 from sphinx.util.osutil import copyfile
+import posixpath
 import json
 
 # Have no better idea how to include it at the end of the document.
@@ -53,7 +54,7 @@ IMG_FILES = (
 )
 
 
-class fancybox_node(nodes.General, nodes.Element):
+class fancybox_node(nodes.image, nodes.General, nodes.Element):
     pass
 
 
@@ -63,6 +64,7 @@ class FancyboxDirective(Directive):
     option_spec = {
         'group': unicode,
         'class': unicode, #directives.class_option,
+        'alt': unicode,
 
         'width': directives.length_or_percentage_or_unitless,
         'height': directives.length_or_unitless,
@@ -78,7 +80,10 @@ class FancyboxDirective(Directive):
         height = self.options.get('height', 
                                   env.app.config.fancybox_thumbnail_height)
         cls = self.options.get('class', 
-                                  env.app.config.fancybox_thumbnail_class)
+                                  env.app.config.fancybox_thumbnail_class).\
+                                    split(' ')
+        alt = self.options.get('alt','')
+                                                                                
 
         # parse nested content
         #TODO: something is broken here, not parsed as expected
@@ -89,54 +94,48 @@ class FancyboxDirective(Directive):
                                 0,
                                 description)
 
-        lb = fancybox_node()
-        lb.group = group
+        fb = fancybox_node()
+        fb['group'] = group
 
-        #if link local or non local
-        if '://' in self.arguments[0].lower() or \
-           self.arguments[0].lower().startswith('http'): 
-
-            # if link is remote link
-
-            if env.app.config.fancybox_download_remote_images:
-                #TODO: download to _images maybe as sha1 name?
-                raise NotImplementedError('fancybox_download_remote_images '
-                                'is not working yey, please contribute :)')
-            else:
-                # put link
-                lb.link = directives.uri(self.arguments[0])
-
+        if env.app.config.fancybox_download_remote_images:
+            #TODO: download to _images maybe as sha1 name?
+            raise NotImplementedError('fancybox_download_remote_images '
+                            'is not working yey, please contribute :)')
         else:
-            # make local path
-            lb.link = directives.uri(os.path.join('_images',self.arguments[0]))
+            # put link
+            fb['uri'] = directives.uri(self.arguments[0])
 
-        lb.content = description
-        lb.size = (width, height)
-        lb.classes = cls
-        #TODO: handle it once, but where :)
-        lb.fancybox_config = env.app.config.fancybox_config
-
-        return [lb]
+        fb['content'] = description
+        fb['size'] = (width, height)
+        fb['classes'] += cls
+        fb['alt']=alt
+        return [fb]
 
 
 def visit_fancybox_node(self, node):
+    # make links local (for local images only)
+    if node['uri'] in self.builder.images:
+        node['uri'] = posixpath.join(self.builder.imgpath,
+                                   self.builder.images[node['uri']])
+
     self.body.append(self.starttag(node,
                                    'a',
-                                   REL='%s' % node.group,
-                                   HREF=node.link,
-                                   CLASS='fancybox '+node.classes,
+                                   REL='%s' % node['group'],
+                                   HREF=node['uri'],
+                                   CLASS=' '.join(['fancybox']+node['classes']),
                                    #TODO: nested parse not works at that moemnt
-                                   TITLE=node.content.astext(),
-                                   ALT=node.content.astext(),
+                                   TITLE=node['content'].astext(),
+                                   ALT=node['alt'] or node['content'].astext(),
                                   ),
                     )
     self.body.append('<img src="%s" width="%s" height="%s" />' % (
-                                                                  node.link, 
-                                                                  node.size[0],
-                                                                  node.size[1]
-                                                                 )
-                    )
-    self.body.append(js%(json.dumps(node.fancybox_config)))
+                                                                   node['uri'], 
+                                                                   node['size'][0],
+                                                                   node['size'][1]
+                                                                  )
+                     )
+    #TODO: handle it once, but where :)
+    self.body.append(js%(json.dumps(self.builder.app.config.fancybox_config)))
 
 
 def depart_fancybox_node(self, node):
@@ -146,6 +145,8 @@ def depart_fancybox_node(self, node):
 def add_stylesheet(app):
     for FILE in CSS_FILES:
         app.add_stylesheet(FILE)
+
+def add_javascript(app):
     for FILE in JS_FILES:
         app.add_javascript(FILE)
 
@@ -153,7 +154,6 @@ def add_stylesheet(app):
 def copy_stylesheet(app, exception):
     if app.builder.name != 'html' or exception:
         return
-    app.info('Copying fancybox stylesheets and js... ', nonl=True)
     import os
     #TODO: change _static to variable from config (something like that exists?)
     path = os.path.abspath(os.path.join(app.builder.outdir,
@@ -163,16 +163,21 @@ def copy_stylesheet(app, exception):
     if not os.path.exists(path):
         os.makedirs(path)
 
+    app.info('Copying fancybox stylesheets... ', nonl=True)
     for FILE in CSS_FILES:
         copyfile(
             os.path.join(os.path.dirname(__file__), FILE),
             os.path.join(app.builder.outdir, '_static', FILE)
         )
+    app.info('done')
+    app.info('Copying fancybox javascript... ', nonl=True)
     for FILE in JS_FILES:
         copyfile(
             os.path.join(os.path.dirname(__file__), FILE),
             os.path.join(app.builder.outdir, '_static', FILE)
         )
+    app.info('done')
+    app.info('Copying fancybox images... ', nonl=True)
     for FILE in IMG_FILES:
         copyfile(
             os.path.join(os.path.dirname(__file__), FILE),
@@ -187,24 +192,28 @@ def add_javascript_code(app, doctree, fromdocname):
     pass
 '''
 
+def pass_node(self,node):
+    pass
+
 
 def setup(app):
     app.add_config_value('fancybox_thumbnail_width','150px','env')
     app.add_config_value('fancybox_thumbnail_height','150px','env')
     app.add_config_value('fancybox_thumbnail_class','','env')
     app.add_config_value('fancybox_download_remote_images',False,'env')
+    app.add_config_value('fancybox_generate_thumbnails',False,'env')
     app.add_config_value('fancybox_config',{},'env')
     app.add_node(fancybox_node,
                  html=(visit_fancybox_node, depart_fancybox_node),
-                 #TODO: write fallback to non html output as image?
-                 #latex=(visit_fancybox_node, depart_fancybox_node),
-                 #text=(visit_fancybox_node, depart_fancybox_node),
-                 #man=(visit_fancybox_node, depart_fancybox_node),
-                 #texinfo=(visit_fancybox_node, depart_fancybox_node)
+                 latex=(pass_node,pass_node),
+                 man=(pass_node,pass_node),
+                 texinfo=(pass_node,pass_node),
+                 text=(pass_node,pass_node),
     )
 
     app.add_directive('fancybox', FancyboxDirective)
     #app.connect('doctree-resolved', add_javascript_code)
 
     app.connect('builder-inited', add_stylesheet)
+    app.connect('builder-inited', add_javascript)
     app.connect('build-finished', copy_stylesheet)
