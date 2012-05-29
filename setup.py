@@ -17,10 +17,7 @@ setup(
     author=u'Tomek Czyż',
     author_email='tomekczyz@gmail.com',
     description='Sphinx "fancybox" extension',
-    long_description=open(os.path.join(
-                              os.path.dirname(__file__),
-                              'readme.rst')
-                         ).read(),
+    long_description=open('readme.rst').read(),
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
