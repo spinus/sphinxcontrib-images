@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+__version__ = '0.3.1'
+__author__ = 'Tomek Czyż <tomekczyz@gmail.com>'
+__license__ = "BSD"
+
+
 import os
 import re
 from docutils.parsers.rst import roles, directives
