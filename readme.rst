@@ -89,12 +89,14 @@ fancybox:
 TODO
 ----
 
+* handling local files (not only remotes) (DONE)
 * option to copying remote graphics as statics
-* fallback for non html output
+* fallback for non html output (DONE)
 * nested parsing fix
 * JS should be handled only once, not on every image node
 * width and height parameters (currently the thumbnail is set to 100x100px) (DONE)
 * get default thumbnail size from config (DONE)
+* generate thumbnails for big images 
 
 
 Questions and suggestions
