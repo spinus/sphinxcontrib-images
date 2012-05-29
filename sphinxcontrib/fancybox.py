@@ -68,7 +68,7 @@ class FancyboxDirective(Directive):
     required_arguments = 1
     option_spec = {
         'group': unicode,
-        'class': unicode, #directives.class_option,
+        'class': unicode,  # directives.class_option,
         'alt': unicode,
 
         'width': directives.length_or_percentage_or_unitless,
@@ -80,22 +80,21 @@ class FancyboxDirective(Directive):
 
         group = self.options.get('group', 'default')
 
-        width = self.options.get('width', 
+        width = self.options.get('width',
                                  env.app.config.fancybox_thumbnail_width)
-        height = self.options.get('height', 
+        height = self.options.get('height',
                                   env.app.config.fancybox_thumbnail_height)
-        cls = self.options.get('class', 
+        cls = self.options.get('class',
                                   env.app.config.fancybox_thumbnail_class).\
                                     split(' ')
-        alt = self.options.get('alt','')
-                                                                                
+        alt = self.options.get('alt', '')
 
         # parse nested content
         #TODO: something is broken here, not parsed as expected
         description = nodes.paragraph()
         content = nodes.paragraph()
-        content += [ nodes.Text("%s"%x) for x in self.content]
-        self.state.nested_parse(content, 
+        content += [nodes.Text("%s" % x) for x in self.content]
+        self.state.nested_parse(content,
                                 0,
                                 description)
 
@@ -113,7 +112,7 @@ class FancyboxDirective(Directive):
         fb['content'] = description
         fb['size'] = (width, height)
         fb['classes'] += cls
-        fb['alt']=alt
+        fb['alt'] = alt
         return [fb]
 
 
@@ -123,24 +122,29 @@ def visit_fancybox_node(self, node):
         node['uri'] = posixpath.join(self.builder.imgpath,
                                    self.builder.images[node['uri']])
 
-    self.body.append(self.starttag(node,
-                                   'a',
-                                   REL='%s' % node['group'],
-                                   HREF=node['uri'],
-                                   CLASS=' '.join(['fancybox']+node['classes']),
-                                   #TODO: nested parse not works at that moemnt
-                                   TITLE=node['content'].astext(),
-                                   ALT=node['alt'] or node['content'].astext(),
-                                  ),
-                    )
-    self.body.append('<img src="%s" width="%s" height="%s" />' % (
-                                                                   node['uri'], 
-                                                                   node['size'][0],
-                                                                   node['size'][1]
-                                                                  )
-                     )
+    self.body.append(
+        self.starttag(
+            node,
+            'a',
+            REL='%s' % node['group'],
+            HREF=node['uri'],
+            CLASS=' '.join(['fancybox'] + node['classes']),
+            #TODO: nested parse not works at that moemnt
+            TITLE=node['content'].astext(),
+            ALT=node['alt'] or node['content'].astext(),
+        ),
+    )
+    self.body.append(
+        '<img src="%s" width="%s" height="%s" />' % (
+                                                     node['uri'],
+                                                     node['size'][0],
+                                                     node['size'][1],
+                                                    )
+    )
     #TODO: handle it once, but where :)
-    self.body.append(js%(json.dumps(self.builder.app.config.fancybox_config)))
+    self.body.append(
+        js % (json.dumps(self.builder.app.config.fancybox_config))
+    )
 
 
 def depart_fancybox_node(self, node):
@@ -150,6 +154,7 @@ def depart_fancybox_node(self, node):
 def add_stylesheet(app):
     for FILE in CSS_FILES:
         app.add_stylesheet(FILE)
+
 
 def add_javascript(app):
     for FILE in JS_FILES:
@@ -197,23 +202,24 @@ def add_javascript_code(app, doctree, fromdocname):
     pass
 '''
 
-def pass_node(self,node):
+
+def pass_node(self, node):
     pass
 
 
 def setup(app):
-    app.add_config_value('fancybox_thumbnail_width','150px','env')
-    app.add_config_value('fancybox_thumbnail_height','150px','env')
-    app.add_config_value('fancybox_thumbnail_class','','env')
-    app.add_config_value('fancybox_download_remote_images',False,'env')
-    app.add_config_value('fancybox_generate_thumbnails',False,'env')
-    app.add_config_value('fancybox_config',{},'env')
+    app.add_config_value('fancybox_thumbnail_width', '150px', 'env')
+    app.add_config_value('fancybox_thumbnail_height', '150px', 'env')
+    app.add_config_value('fancybox_thumbnail_class', '', 'env')
+    app.add_config_value('fancybox_download_remote_images', False, 'env')
+    app.add_config_value('fancybox_generate_thumbnails', False, 'env')
+    app.add_config_value('fancybox_config', {}, 'env')
     app.add_node(fancybox_node,
                  html=(visit_fancybox_node, depart_fancybox_node),
-                 latex=(pass_node,pass_node),
-                 man=(pass_node,pass_node),
-                 texinfo=(pass_node,pass_node),
-                 text=(pass_node,pass_node),
+                 latex=(pass_node, pass_node),
+                 man=(pass_node, pass_node),
+                 texinfo=(pass_node, pass_node),
+                 text=(pass_node, pass_node),
     )
 
     app.add_directive('fancybox', FancyboxDirective)
