@@ -8,11 +8,9 @@ from setuptools import setup, find_packages
 # let me know
 requires = ['Sphinx>=0.9'] 
 
-from sphinxcontrib.fancybox import __version__
-
 setup(
     name='sphinxcontrib-fancybox',
-    version=__version__,
+    version='0.3.2',
     url='http://spinus.github.com/sphinxcontrib-fancybox',
     download_url='http://pypi.python.org/pypi/sphinxcontrib-fancybox',
     license='BSD',
