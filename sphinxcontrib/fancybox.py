@@ -67,26 +67,19 @@ class FancyboxDirective(Directive):
     has_content = True
     required_arguments = 1
     
-    # Dirty hack to make it Python 3 compatible ("Compatibility beats purity")
     try:
-        option_spec = {
-            'group': unicode,
-            'class': unicode,  # directives.class_option,
-            'alt': unicode,
-
-            'width': directives.length_or_percentage_or_unitless,
-            'height': directives.length_or_unitless,
-        }
-    
+        str = unicode
     except NameError:
-        option_spec = {
-            'group': str,
-            'class': str,  # directives.class_option,
-            'alt': str,
+        pass
 
-            'width': directives.length_or_percentage_or_unitless,
-            'height': directives.length_or_unitless,
-        }
+    option_spec = {
+        'group': str,
+        'class': str,  # directives.class_option,
+        'alt': str,
+
+        'width': directives.length_or_percentage_or_unitless,
+        'height': directives.length_or_unitless,
+    }
 
     def run(self):
         env = self.state.document.settings.env
