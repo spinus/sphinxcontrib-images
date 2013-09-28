@@ -66,10 +66,16 @@ class fancybox_node(nodes.image, nodes.General, nodes.Element):
 class FancyboxDirective(Directive):
     has_content = True
     required_arguments = 1
+    
+    try:
+        str = unicode
+    except NameError:
+        pass
+
     option_spec = {
-        'group': unicode,
-        'class': unicode,  # directives.class_option,
-        'alt': unicode,
+        'group': str,
+        'class': str,  # directives.class_option,
+        'alt': str,
 
         'width': directives.length_or_percentage_or_unitless,
         'height': directives.length_or_unitless,
