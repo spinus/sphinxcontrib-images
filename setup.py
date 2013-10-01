@@ -14,7 +14,7 @@ setup(
     url='http://spinus.github.com/sphinxcontrib-fancybox',
     download_url='http://pypi.python.org/pypi/sphinxcontrib-fancybox',
     license='BSD',
-    author=u'Tomek Czyż',
+    author='Tomek Czyż',
     author_email='tomekczyz@gmail.com',
     description='Sphinx "fancybox" extension',
     long_description=open('readme.rst').read(),
