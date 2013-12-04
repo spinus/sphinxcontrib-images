@@ -6,11 +6,11 @@ from setuptools import setup, find_packages
 
 # tested only with it, if you tested with older version and it worked, pleas
 # let me know
-requires = ['Sphinx>=0.9'] 
+requires = ['Sphinx>=0.9']
 
 setup(
     name='sphinxcontrib-fancybox',
-    version='0.3.2',
+    version='0.3.3',
     url='http://spinus.github.com/sphinxcontrib-fancybox',
     download_url='http://pypi.python.org/pypi/sphinxcontrib-fancybox',
     license='BSD',
