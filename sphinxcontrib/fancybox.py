@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.3.1'
+__version__ = '0.3.3'
 __author__ = 'Tomek Czyż <tomekczyz@gmail.com>'
 __license__ = "BSD"
 
