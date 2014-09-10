@@ -9,7 +9,7 @@ setup(
     name='sphinxcontrib-images',
     version='0.4.0',
     url='https://github.com/spinus/sphinxcontrib-images',
-    download_url='http://pypi.python.org/pypi/sphinxcontrib-images',
+    download_url='https://pypi.python.org/pypi/sphinxcontrib-images',
     license='Apache 2',
     author='Tomasz Czyż',
     author_email='tomasz.czyz@gmail.com',
