@@ -1,6 +1,9 @@
 sphinxcontrib-images
 ====================
 
+sphinxcontrib-images (formerly `sphinxcontrib-fancybox
+<https://pypi.python.org/pypi/sphinxcontrib-fancybox>`_).
+
 How to install?
 ---------------
 

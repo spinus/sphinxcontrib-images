@@ -1,8 +1,8 @@
 sphinxcontrib-images
 ====================
 
-sphinxcontrib-images (formerly `sphinxcontrib-fancybox2
-<https://pypi.python.org/pypi/sphinxcontrib-fancybox2>`_).
+sphinxcontrib-images (formerly `sphinxcontrib-fancybox
+<https://pypi.python.org/pypi/sphinxcontrib-fancybox>`_).
 
 * `Documentation <https://pythonhosted.org/sphinxcontrib-images>`_,
 * `Repository (GitHub) <https://github.com/spinus/sphinxcontrib-images/>`_,
