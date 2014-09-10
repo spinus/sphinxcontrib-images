@@ -1,0 +1,3 @@
+[submodule "sphinxcontrib_images_lightbox2/lightbox2"]
+	path = sphinxcontrib_images_lightbox2/lightbox2
+	url = https://github.com/lokesh/lightbox2.git
