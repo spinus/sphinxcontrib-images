@@ -4,34 +4,42 @@
 import os
 from setuptools import setup, find_packages
 
-# tested only with it, if you tested with older version and it worked, pleas
-# let me know
-requires = ['Sphinx>=0.9']
 
 setup(
-    name='sphinxcontrib-fancybox',
-    version='0.3.3',
-    url='http://spinus.github.com/sphinxcontrib-fancybox',
-    download_url='http://pypi.python.org/pypi/sphinxcontrib-fancybox',
-    license='BSD',
-    author='Tomek Czyż',
-    author_email='tomekczyz@gmail.com',
-    description='Sphinx "fancybox" extension',
-    long_description=open('readme.rst').read(),
+    name='sphinxcontrib-images',
+    version='0.4.0',
+    url='http://spinus.github.com/sphinxcontrib-images',
+    download_url='http://pypi.python.org/pypi/sphinxcontrib-images',
+    license='Apache 2',
+    author='Tomasz Czyż',
+    author_email='tomasz.czyz@gmail.com',
+    description='Sphinx "images" extension',
+    long_description=open('README.rst').read(),
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Documentation',
     ],
+    entry_points={
+        'console_scripts':[
+            'sphinxcontrib-images=sphinxcontrib.images:main',
+        ],
+        'sphinxcontrib.images.backend':[
+            'LightBox2 = sphinxcontrib_images_lightbox2:LightBox2',
+            'FakeBackend = sphinxcontrib_images_lightbox2:LightBox2',
+        ]
+    },
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=requires,
+    setup_requires=['wheel'],
+    install_requires=['sphinx>1.0',
+                      'requests>2.2,<3'],
     namespace_packages=['sphinxcontrib'],
 )
