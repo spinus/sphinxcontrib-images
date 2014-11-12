@@ -35,7 +35,7 @@ STATICS_DIR_NAME = '_static'
 
 
 DEFAULT_CONFIG = dict(
-    backend=None,
+    backend='LightBox2',
     default_image_width='100%',
     default_image_height='auto',
     default_group=None,
