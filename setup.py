@@ -7,11 +7,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='sphinxcontrib-images',
-    version='0.4.0',
+    version='0.4.2',
     url='https://github.com/spinus/sphinxcontrib-images',
     download_url='https://pypi.python.org/pypi/sphinxcontrib-images',
     license='Apache 2',
-    author='Tomasz Czyż',
+    author=u'Tomasz Czyż',
     author_email='tomasz.czyz@gmail.com',
     description='Sphinx "images" extension',
     long_description=open('README.rst').read(),
