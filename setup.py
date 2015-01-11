@@ -2,7 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+class Tox(TestCommand):
+    user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.tox_args = None
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+    def run_tests(self):
+        import tox
+        errno = tox.cmdline()
+        sys.exit(errno)
 
 
 setup(
@@ -41,5 +58,7 @@ setup(
     setup_requires=['wheel'],
     install_requires=['sphinx>1.0',
                       'requests>2.2,<3'],
+    tests_require=['tox==1.8.1'],
+    cmdclass = {'test': Tox},
     namespace_packages=['sphinxcontrib'],
 )

@@ -2,7 +2,7 @@
 import sys, os
 import sphinx_rtd_theme
 
-needs_sphinx = '1.2'
+needs_sphinx = '1.1'
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.viewcode',
               'sphinxcontrib.images',
