@@ -1,0 +1,13 @@
+language: python
+install:
+    - pip install virtualenv
+script:
+    - ./setup.py test
+env:
+    - TOXENV=py27-sphinx123
+    - TOXENV=pypy-sphinx123
+    - TOXENV=py34-sphinx123
+    - TOXENV=py27-sphinx13b2
+    - TOXENV=pypy-sphinx13b2
+    - TOXENV=py34-sphinx13b2
+
