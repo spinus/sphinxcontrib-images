@@ -7,6 +7,10 @@ sphinxcontrib-images (formerly `sphinxcontrib-fancybox
 * `Documentation <https://pythonhosted.org/sphinxcontrib-images>`_,
 * `Repository (GitHub) <https://github.com/spinus/sphinxcontrib-images/>`_,
 * `PyPI <https://pypi.python.org/pypi/sphinxcontrib-images/>`_.
+* TravisCI
+
+  .. image:: https://travis-ci.org/spinus/sphinxcontrib-images.svg?branch=master
+      :target: https://travis-ci.org/spinus/sphinxcontrib-images
 
 Features
 --------
