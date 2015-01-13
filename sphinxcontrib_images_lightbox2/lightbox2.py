@@ -7,6 +7,7 @@ class LightBox2(images.Backend):
         'lightbox2/css/lightbox.css',
         'lightbox2/js/jquery-1.11.0.min.js',
         'lightbox2/js/lightbox.min.js',
+        'lightbox2/js/lightbox.min.map',
         'lightbox2/img/close.png',
         'lightbox2/img/next.png',
         'lightbox2/img/prev.png',

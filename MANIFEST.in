@@ -4,6 +4,7 @@ include sphinxcontrib_images_lightbox2/lightbox2/img/loading.gif
 include sphinxcontrib_images_lightbox2/lightbox2/img/next.png
 include sphinxcontrib_images_lightbox2/lightbox2/img/prev.png
 include sphinxcontrib_images_lightbox2/lightbox2/js/lightbox.min.js
+include sphinxcontrib_images_lightbox2/lightbox2/js/lightbox.min.map
 include sphinxcontrib_images_lightbox2/lightbox2/js/jquery-1.11.0.min.js
 include sphinxcontrib_images_lightbox2/lightbox2/css/screen.css
 include sphinxcontrib_images_lightbox2/lightbox2/css/lightbox.css
