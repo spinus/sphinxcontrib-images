@@ -35,10 +35,12 @@ class LightBox2(images.Backend):
                 ))
         writer.body.append(
             '''<img src="{src}"
+                    class="{cls}"
                     width="{width}"
                     height="{height}"
                     alt="{alt}"/>
                     '''.format(src=node['uri'],
+                               cls='align-%s' % node['align'],
                                width=node['size'][0],
                                height=node['size'][1],
                                alt=node['alt'],
