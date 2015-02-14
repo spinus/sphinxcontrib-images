@@ -80,8 +80,7 @@ class ImageDirective(Directive):
     It's backward compatibile and it's adding more cool stuff.
     '''
 
-    align_h_values = ('left', 'center', 'right')
-    align_values = align_h_values
+    align_values = ('left', 'center', 'right')
 
     def align(argument):
         # This is not callable as self.align.  We cannot make it a
