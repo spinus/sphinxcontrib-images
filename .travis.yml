@@ -4,6 +4,9 @@ install:
 script:
     - ./setup.py test
 env:
+    - TOXENV=py27-sphinx113
+    - TOXENV=pypy-sphinx113
+    - TOXENV=py34-sphinx113
     - TOXENV=py27-sphinx123
     - TOXENV=pypy-sphinx123
     - TOXENV=py34-sphinx123
