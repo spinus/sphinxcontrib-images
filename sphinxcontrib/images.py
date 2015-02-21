@@ -210,7 +210,7 @@ def download_images(app, env):
         if not os.path.isfile(dst):
             app.debug('{} -> {} (downloading)'
                       .format(src, dst))
-            with open(dst, 'w') as f:
+            with open(dst, 'wb') as f:
                 # TODO: apply reuqests_kwargs
                 try:
                     f.write(requests.get(src,

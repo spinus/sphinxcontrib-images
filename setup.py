@@ -56,7 +56,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     setup_requires=['wheel'],
-    install_requires=['sphinx>1.0',
+    install_requires=['sphinx>=1.2.3,<2',
                       'requests>2.2,<3'],
     tests_require=['tox==1.8.1'],
     cmdclass = {'test': Tox},
