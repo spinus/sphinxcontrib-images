@@ -16,6 +16,7 @@ import functools
 import posixpath
 import pkg_resources
 
+import sphinx
 from sphinx.locale import _
 from sphinx.environment import NoUri
 from sphinx.util.osutil import copyfile
@@ -168,10 +169,12 @@ class ImageDirective(Directive):
         uri = uri.strip()
         env = self.state.document.settings.env
         app_directory = os.path.dirname(os.path.abspath(self.state.document.settings._source))
+        if sphinx.__version__.startswith('1.1'):
+            app_directory = app_directory.decode('utf-8')
 
-        if uri.startswith('/'):
+        if uri[0] == '/':
             return False
-        if uri.startswith('file://'):
+        if uri[0:7] == 'file://':
             return False
         if os.path.isfile(os.path.join(env.srcdir, uri)):
             return False
@@ -219,7 +222,7 @@ def download_images(app, env):
                                            brown, len(env.remote_images)):
         dst = os.path.join(env.srcdir, env.remote_images[src])
         if not os.path.isfile(dst):
-            app.debug('{} -> {} (downloading)'
+            app.info('{} -> {} (downloading)'
                       .format(src, dst))
             with open(dst, 'wb') as f:
                 # TODO: apply reuqests_kwargs
@@ -229,7 +232,7 @@ def download_images(app, env):
                 except requests.ConnectionError:
                     app.info("Cannot download `{}`".format(src))
         else:
-            app.debug('{} -> {} (already in cache)'
+            app.info('{} -> {} (already in cache)'
                       .format(src, dst))
 
 
@@ -247,7 +250,6 @@ def configure_backend(app):
 
     backend_name_or_callable = config['backend']
     if isinstance(backend_name_or_callable, str):
-        app.debug("Backend passed as name: {}".format(backend_name_or_callable))
         try:
             backend = list(pkg_resources.iter_entry_points(
                                 group='sphinxcontrib.images.backend',
@@ -256,9 +258,8 @@ def configure_backend(app):
         except IndexError:
             raise IndexError("Cannot find sphinxcontrib-images backend "
                                 "with name `{}`.".format(backend_name_or_callable))
-        app.debug("Backend found in entrypoint : {}".format(backend))
     elif callable(backend_name_or_callable):
-        app.debug("Backend passed as callable: {}".format(backend_name_or_callable))
+        pass
     else:
         raise TypeError("sphinxcontrib-images backend is configured "
                         "improperly. It has to be a string (name of "
