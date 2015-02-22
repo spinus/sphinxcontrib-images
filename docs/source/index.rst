@@ -122,8 +122,10 @@ All available arguments:
 
 :class:
 
-    This can be use by backend to put some style.
-    The straightforward use case it's to define HTML classes here.
+    This can be used by backend to put some style.
+
+    The straightforward use case it's to define HTML classes here (LightBox2
+    backend put this classes on outer ``a`` element, not inner ``img``).
 
 :width:
 
@@ -183,6 +185,29 @@ All available arguments:
 
     Currently I have a problem with LightBox2 to make captions below thumbnails
     if you have any idea how to solve it please write.
+
+:align: (default: '')
+
+    Align the picture.
+
+    LightBox2 backend uses ``align-<left|center|right>`` sphinx html classes.
+    By default alignment is not used at all.
+
+    Values like:
+
+    * ``left``
+    * ``center``
+    * ``right``
+
+    are accepted.
+
+    .. note::
+
+        You may want to wrap aligned element with::
+
+            .. container:: clearfix
+
+        to fix document flow.
 
 Examples
 --------
@@ -272,6 +297,25 @@ Group images
 
 .. thumbnail:: img.jpg
     :group: group1
+
+
+Aligning
+--------
+
+.. container:: clearfix
+
+   .. thumbnail:: img.jpg
+      :align: left
+
+.. container:: clearfix
+
+   .. thumbnail:: img.jpg
+      :align: center
+
+.. container:: clearfix
+
+   .. thumbnail:: img.jpg
+      :align: right
 
 
 

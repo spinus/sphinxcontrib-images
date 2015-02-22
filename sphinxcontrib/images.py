@@ -117,7 +117,7 @@ class ImageDirective(Directive):
         height = self.options.get('height', conf['default_image_height'])
         alt = self.options.get('alt', '')
         title = self.options.get('title', '' if conf['default_show_title'] else None)
-        align = self.options.get('align', 'left')
+        align = self.options.get('align', '')
 
         #TODO get default from config
         download = self.options.get('download', conf['download'])
