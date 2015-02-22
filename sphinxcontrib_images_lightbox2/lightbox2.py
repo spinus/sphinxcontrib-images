@@ -40,7 +40,7 @@ class LightBox2(images.Backend):
                     height="{height}"
                     alt="{alt}"/>
                     '''.format(src=node['uri'],
-                               cls='align-%s' % node['align'],
+                               cls='align-%s' % node['align'] if node['align'] else '',
                                width=node['size'][0],
                                height=node['size'][1],
                                alt=node['alt'],
