@@ -80,6 +80,14 @@ class ImageDirective(Directive):
     It's backward compatibile and it's adding more cool stuff.
     '''
 
+    align_values = ('left', 'center', 'right')
+
+    def align(argument):
+        # This is not callable as self.align.  We cannot make it a
+        # staticmethod because we're saving an unbound method in
+        # option_spec below.
+        return directives.choice(argument, ImageDirective.align_values)
+
     has_content = True
     required_arguments = True
 
@@ -93,6 +101,7 @@ class ImageDirective(Directive):
         'alt': directives.unchanged,
         'download': directive_boolean,
         'title': directives.unchanged,
+        'align': align,
     }
 
     def run(self):
@@ -107,6 +116,7 @@ class ImageDirective(Directive):
         height = self.options.get('height', conf['default_image_height'])
         alt = self.options.get('alt', '')
         title = self.options.get('title', '' if conf['default_show_title'] else None)
+        align = self.options.get('align', 'left')
 
         #TODO get default from config
         download = self.options.get('download', conf['download'])
@@ -151,6 +161,7 @@ class ImageDirective(Directive):
         img['size'] = (width, height)
         img['classes'] += classes
         img['alt'] = alt
+        img['align'] = align
         return [img]
 
     def is_remote(self, uri):
