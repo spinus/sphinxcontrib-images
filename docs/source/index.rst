@@ -106,11 +106,11 @@ You can use it like::
 
 or::
 
-    .. thumgnail:: http://remote/image.jpg
+    .. thumbnail:: http://remote/image.jpg
 
 You can pass options like to regular Sphinxs' directives::
 
-    .. thumgnail:: http://remote/image.jpg
+    .. thumbnail:: http://remote/image.jpg
         :download: true
 
 All available arguments:
