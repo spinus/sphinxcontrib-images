@@ -301,7 +301,10 @@ def configure_backend(app):
             def inner_wrapper(writer, node):
                 return f(writer, node)
             return inner_wrapper
-        signature = '_{}_{}'.format(node.__name__, output_type)
+        if output_type == 'html':
+            signature = '_{}_{}'.format(node.__name__, output_type)
+        else:
+            signature = '_{}'.format(node.__name__)
         return (backend_method(getattr(backend, 'visit' + signature,
                                        not_supported)),
                 backend_method(getattr(backend, 'depart' + signature,
