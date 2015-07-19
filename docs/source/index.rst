@@ -215,6 +215,13 @@ All available arguments:
 
         to fix document flow.
 
+:thumbnail:
+
+    Path or URI to thumbnail. It depends to backend how this information is
+    used.  ``LightBox2`` backend uses this image as thumbnail to the regular
+    image (first argument to ``thumbnail`` directive).  ``LightBox2``
+    backend does not use this information for non HTML output.
+
 Examples
 --------
 
@@ -323,8 +330,11 @@ Aligning
    .. thumbnail:: img.jpg
       :align: right
 
+Thumbnail for image
+-------------------
 
-
+.. thumbnail:: https://upload.wikimedia.org/wikipedia/meta/0/08/Wikipedia-logo-v2_1x.png
+   :thumbnail: img.jpg
 
 Indices and tables
 ==================

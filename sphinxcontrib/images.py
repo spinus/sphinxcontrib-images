@@ -102,6 +102,7 @@ class ImageDirective(Directive):
         'width': directives.length_or_percentage_or_unitless,
         'height': directives.length_or_unitless,
         'strech': directives.choice,
+        'thumbnail': directives.unchanged,
 
         'group': directives.unchanged,
         'class': directives.class_option,  # or str?
@@ -124,6 +125,7 @@ class ImageDirective(Directive):
         alt = self.options.get('alt', '')
         title = self.options.get('title', '' if conf['default_show_title'] else None)
         align = self.options.get('align', '')
+        thumbnail_uri = self.options.get('thumbnail', '')
 
         #TODO get default from config
         download = self.options.get('download', conf['download'])
@@ -153,6 +155,25 @@ class ImageDirective(Directive):
             img['uri'] = self.arguments[0]
             img['remote'] = False
             env.images.add_file('', img['uri'])
+
+        if thumbnail_uri:
+            if self.is_remote(thumbnail_uri):
+                img['thumbnail_remote'] = True
+                if download:
+                    img['thumbnail_uri'] = os.path.join('_images', hashlib.sha1(thumbnail_uri.encode()).hexdigest())
+                    img['thumbnail_remote_uri'] = thumbnail_uri
+                    env.remote_images[img['thumbnail_remote_uri']] = img['thumbnail_uri']
+                    env.images.add_file('', img['thumbnail_uri'])
+                else:
+                    img['thumbnail_uri'] = thumbnail_uri
+                    img['thimbnail_remote_uri'] = thumbnail_uri
+            else:
+                img['thumbnail_uri'] = thumbnail_uri
+                img['thumbnail_remote'] = False
+                env.images.add_file('', img['thumbnail_uri'])
+        else:
+            img['thumbnail_uri'] = None
+            img['thumbnail_remote'] = None
 
         img['content'] = description.astext()
 

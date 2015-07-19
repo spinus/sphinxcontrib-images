@@ -28,11 +28,12 @@ class LightBox2(images.Backend):
                    class="{cls}"
                    title="{title}"
                    data-title="{title}"
-                   >'''.format(
+                   >href={href}, thumb={thumbnail}'''.format(
                 group='group-%s' % node['group'] if node['group'] else node['uri'],
                 href=node['uri'],
                 cls=' '.join(node['classes']),
                 title=node['title'] + node['content'],
+                thumbnail=node['thumbnail_uri'] or 'no thumbnail'
                 ))
         writer.body.append(
             '''<img src="{src}"
@@ -40,7 +41,7 @@ class LightBox2(images.Backend):
                     width="{width}"
                     height="{height}"
                     alt="{alt}"/>
-                    '''.format(src=node['uri'],
+                    '''.format(src=node['thumbnail_uri'] or node['uri'],
                                cls='align-%s' % node['align'] if node['align'] else '',
                                width=node['size'][0],
                                height=node['size'][1],
