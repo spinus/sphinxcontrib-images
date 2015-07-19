@@ -54,6 +54,12 @@ class Backend(object):
     def __init__(self, app):
         self._app = app
 
+    def visit_image_node_fallback(self, writer, node):
+        writer.visit_image(node)
+
+    def depart_image_node_fallback(self, writer, node):
+        writer.depart_image(node)
+
 
 class image_node(nodes.image, nodes.General, nodes.Element):
     pass
@@ -288,27 +294,17 @@ def configure_backend(app):
     app.info('`{}`'.format(str(backend.__class__.__module__ +
                            ':' + backend.__class__.__name__)))
 
-    def not_supported(writer, node):
-        raise NotImplementedError('Sorry, but backend `{}` does not support '
-                                  'writing node `{}` by writer `{}`'
-                                  .format(backend.__class__.__name__,
-                                          node.__class__.__name__,
-                                          writer.__class__.__name__))
-
     def backend_methods(node, output_type):
         def backend_method(f):
             @functools.wraps(f)
             def inner_wrapper(writer, node):
                 return f(writer, node)
             return inner_wrapper
-        if output_type == 'html':
-            signature = '_{}_{}'.format(node.__name__, output_type)
-        else:
-            signature = '_{}'.format(node.__name__)
+        signature = '_{}_{}'.format(node.__name__, output_type)
         return (backend_method(getattr(backend, 'visit' + signature,
-                                       not_supported)),
+                               getattr(backend, 'visit_' + node.__name__ + '_fallback'))),
                 backend_method(getattr(backend, 'depart' + signature,
-                                       not_supported)))
+                               getattr(backend, 'depart_' + node.__name__ + '_fallback'))))
 
 
     # add new node to the stack
@@ -316,7 +312,7 @@ def configure_backend(app):
     app.add_node(image_node,
                  **{output_type: backend_methods(image_node, output_type)
                     for output_type in ('html', 'latex', 'man', 'texinfo',
-                                        'text')})
+                                        'text', 'epub')})
 
     app.add_directive('thumbnail', ImageDirective)
     if config['override_image_directive']:
