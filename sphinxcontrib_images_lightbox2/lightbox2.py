@@ -51,3 +51,8 @@ class LightBox2(images.Backend):
     def depart_image_node_html(self, writer, node):
         writer.body.append('</a>')
 
+    def visit_image_node(self, writer, node):
+        writer.visit_image(node)
+
+    def depart_image_node(self, writer, node):
+        writer.depart_image(node)
