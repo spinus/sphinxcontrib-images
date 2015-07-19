@@ -22,7 +22,7 @@ Add extension to ``conf.py`` in your sphinx project. ::
 How to configure?
 -----------------
 
-You can configure behaviour by dictionary with options placed in ``conf.py``::
+You can configure behaviour using dictionary with options placed in ``conf.py``::
 
     images_config = {
         …
@@ -39,10 +39,16 @@ All available options with comments:
     ``sphinxcontrib.images.backend`` group (look source
     of ``setup.py`` in this project).
 
-    If callable it can be a function or a class which
+    Callable can be a function or a class which
     returns instance of a backend to render images.
     First argument is Sphinx's app instance. Go to
     LightBox2 backend to see how to implement that.
+
+    Each backend should implement rendering ``image_node`` on specific outputs.
+    If methods are not implemented, default ``image`` directive is a fallback.
+
+    By default ``LightBox2`` backends natively supports only HTML (other
+    outputs are supported by fallback-image-directive).
 
 :override_image_directive: (default: ``False``)
 
