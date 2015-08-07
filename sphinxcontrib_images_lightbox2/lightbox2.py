@@ -23,7 +23,8 @@ class LightBox2(images.Backend):
                                        builder.images[node['uri']])
 
         writer.body.append(
-            u'''<a data-lightbox="{group}"
+            u'''<figure class="{cls}">
+                <a data-lightbox="{group}"
                    href="{href}"
                    class="{cls}"
                    title="{title}"
@@ -50,3 +51,6 @@ class LightBox2(images.Backend):
 
     def depart_image_node_html(self, writer, node):
         writer.body.append('</a>')
+        if node['caption'] is True:
+            writer.body.append(u'''<figcaption class="{cls}">{title}</figcaption>'''.format(cls=' '.join(node['classes']),title=node['title'],))
+        writer.body.append('</figure>')

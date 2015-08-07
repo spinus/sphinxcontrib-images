@@ -45,6 +45,7 @@ DEFAULT_CONFIG = dict(
     requests_kwargs={},
     cache_path='_images',
     override_image_directive=False,
+    caption=False,
 )
 
 
@@ -109,6 +110,7 @@ class ImageDirective(Directive):
         'download': directive_boolean,
         'title': directives.unchanged,
         'align': align,
+        'caption': directive_boolean,
     }
 
     def run(self):
@@ -124,6 +126,7 @@ class ImageDirective(Directive):
         alt = self.options.get('alt', '')
         title = self.options.get('title', '' if conf['default_show_title'] else None)
         align = self.options.get('align', '')
+        caption = self.options.get('caption', False)
 
         #TODO get default from config
         download = self.options.get('download', conf['download'])
@@ -164,6 +167,7 @@ class ImageDirective(Directive):
             img['title'] = img['content']
             img['content'] = ''
 
+        img['caption'] = caption
         img['group'] = group
         img['size'] = (width, height)
         img['classes'] += classes
