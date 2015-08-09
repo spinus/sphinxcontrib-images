@@ -22,19 +22,25 @@ class LightBox2(images.Backend):
             node['uri'] = os.path.join(builder.imgpath,
                                        builder.images[node['uri']])
 
-        writer.body.append(
+        if node['show_caption'] is True:
+            writer.body.append(
             u'''<figure class="{cls}">
-                <a data-lightbox="{group}"
-                   href="{href}"
-                   class="{cls}"
-                   title="{title}"
-                   data-title="{title}"
-                   >'''.format(
-                group='group-%s' % node['group'] if node['group'] else node['uri'],
-                href=node['uri'],
-                cls=' '.join(node['classes']),
-                title=node['title'] + node['content'],
-                ))
+            '''.format(cls=' '.join(node['classes']),))
+        if node['show_caption'] is True and node['legacy_classes']:
+            writer.body.append(
+            u'''<a class="{legcls}"'''.format(legcls=' '.join(node['legacy_classes']),))
+        else:
+            writer.body.append(u'''<a class="{cls}"'''.format(cls=' '.join(node['classes']),))
+        writer.body.append(
+            u'''
+               data-lightbox="{group}"
+               href="{href}"
+               title="{title}"
+               data-title="{title}"
+               >'''.format( group='group-%s' % node['group'] if node['group'] else node['uri'],
+                            href=node['uri'],
+                            title=node['title'] + node['content'],
+                            ))
         writer.body.append(
             '''<img src="{src}"
                     class="{cls}"
@@ -51,6 +57,6 @@ class LightBox2(images.Backend):
 
     def depart_image_node_html(self, writer, node):
         writer.body.append('</a>')
-        if node['caption'] is True:
-            writer.body.append(u'''<figcaption class="{cls}">{title}</figcaption>'''.format(cls=' '.join(node['classes']),title=node['title'],))
-        writer.body.append('</figure>')
+        if node['show_caption'] is True:
+            writer.body.append(u'''<figcaption>{title}</figcaption>'''.format(title=node['title'],))
+            writer.body.append('</figure>')

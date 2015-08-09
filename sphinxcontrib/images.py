@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.6.0'
+__version__ = '0.6.1'
 __author__ = 'Tomasz Czyż <tomaszczyz@gmail.com>'
 __license__ = "Apache 2"
 
@@ -45,7 +45,7 @@ DEFAULT_CONFIG = dict(
     requests_kwargs={},
     cache_path='_images',
     override_image_directive=False,
-    caption=False,
+    show_caption=False,
 )
 
 
@@ -110,7 +110,8 @@ class ImageDirective(Directive):
         'download': directive_boolean,
         'title': directives.unchanged,
         'align': align,
-        'caption': directive_boolean,
+        'show_caption': directive_boolean,
+        'legacy_class': directives.class_option,
     }
 
     def run(self):
@@ -126,7 +127,8 @@ class ImageDirective(Directive):
         alt = self.options.get('alt', '')
         title = self.options.get('title', '' if conf['default_show_title'] else None)
         align = self.options.get('align', '')
-        caption = self.options.get('caption', False)
+        show_caption = self.options.get('show_caption', False)
+        legacy_classes = self.options.get('legacy_class', '')
 
         #TODO get default from config
         download = self.options.get('download', conf['download'])
@@ -167,7 +169,8 @@ class ImageDirective(Directive):
             img['title'] = img['content']
             img['content'] = ''
 
-        img['caption'] = caption
+        img['show_caption'] = show_caption
+        img['legacy_classes'] = legacy_classes
         img['group'] = group
         img['size'] = (width, height)
         img['classes'] += classes
