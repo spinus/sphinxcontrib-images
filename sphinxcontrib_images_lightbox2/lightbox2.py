@@ -26,9 +26,11 @@ class LightBox2(images.Backend):
             writer.body.append(
             u'''<figure class="{cls}">
             '''.format(cls=' '.join(node['classes']),))
-        if node['show_caption'] is True and node['legacy_classes']:
-            writer.body.append(
-            u'''<a class="{legcls}"'''.format(legcls=' '.join(node['legacy_classes']),))
+            if node['legacy_classes']:
+                writer.body.append(
+                u'''<a class="{legcls}"'''.format(legcls=' '.join(node['legacy_classes']),))
+            else:
+                writer.body.append(u'''<a ''')
         else:
             writer.body.append(u'''<a class="{cls}"'''.format(cls=' '.join(node['classes']),))
         writer.body.append(
@@ -43,20 +45,21 @@ class LightBox2(images.Backend):
                             ))
         writer.body.append(
             '''<img src="{src}"
-                    class="{cls}"
-                    width="{width}"
-                    height="{height}"
-                    alt="{alt}"/>
-                    '''.format(src=node['uri'],
-                               cls='align-%s' % node['align'] if node['align'] else '',
-                               width=node['size'][0],
-                               height=node['size'][1],
-                               alt=node['alt'],
-                               title=node['title']))
+                     class="{cls}"
+                     width="{width}"
+                     height="{height}"
+                     alt="{alt}"/>
+                '''.format(src=node['uri'],
+                           cls='align-%s' % node['align'] if node['align'] else '',
+                           width=node['size'][0],
+                           height=node['size'][1],
+                           alt=node['alt'],
+                           title=node['title']))
 
 
     def depart_image_node_html(self, writer, node):
         writer.body.append('</a>')
         if node['show_caption'] is True:
-            writer.body.append(u'''<figcaption>{title}</figcaption>'''.format(title=node['title'],))
+            writer.body.append(u'''<figcaption>{title}</figcaption>
+            '''.format(title=node['title'],))
             writer.body.append('</figure>')
