@@ -215,6 +215,27 @@ All available arguments:
 
         to fix document flow.
 
+:show_caption: (default: ``False``)
+
+    Show the title as a caption below the image.
+    
+    .. warning::
+    
+        Enabling the caption nests the clickable image inside an HTML ``figure``
+        which gets the class if defined.
+        
+        This mays break existing styles.
+        
+        To solve styles compatibility issues, you may use the *legacy_class* argument.
+
+:legacy_class:
+
+    Only applicable when *show_caption* is ``True``.
+    
+    The classese specified are added to the clickable image.
+    
+    The ``figure`` HTML element still gets the classes specified by the *class* argument.
+
 Examples
 --------
 
@@ -323,6 +344,13 @@ Aligning
    .. thumbnail:: img.jpg
       :align: right
 
+
+Caption
+-------
+
+.. thumbnail:: img.jpg
+   :title: Some nice title to the picture
+   :show_caption: True
 
 
 
