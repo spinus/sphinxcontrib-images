@@ -19,8 +19,8 @@ class LightBox2(images.Backend):
         # make links local (for local images only)
         builder = self._app.builder
         if node['uri'] in builder.images:
-            node['uri'] = os.path.join(builder.imgpath,
-                                       builder.images[node['uri']])
+            node['uri'] = '/'.join([builder.imgpath,
+                                    builder.images[node['uri']]])
 
         if node['show_caption'] is True:
             writer.body.append(
