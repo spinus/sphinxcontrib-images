@@ -60,7 +60,7 @@ setup(
     setup_requires=['wheel'],
     install_requires=['sphinx>=1.1.3,<2',
                       'requests>2.2,<3'],
-    tests_require=['tox==1.8.1'],
+    tests_require=['tox==2.3.1'],
     cmdclass = {'test': Tox},
     namespace_packages=['sphinxcontrib'],
 )
