@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os
 import sphinx_rtd_theme
+from sphinxcontrib import images
 
 needs_sphinx = '1.1'
 
@@ -15,7 +16,7 @@ master_doc = 'index'
 project = u'sphinxcontrib-images'
 copyright = u'2014, Tomasz Czyż'
 
-version = '0.8.0'
+version = images.__version__
 release = '1'
 
 exclude_patterns = []
@@ -176,6 +177,8 @@ texinfo_documents = [
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
+
+rst_epilog = ".. |version| replace:: {}".format(version)
 
 images_config = dict(
     backend='LightBox2',

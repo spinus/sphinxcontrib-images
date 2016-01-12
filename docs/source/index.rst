@@ -1,5 +1,5 @@
-sphinxcontrib-images
-====================
+sphinxcontrib-images |version|
+==============================
 
 sphinxcontrib-images (formerly `sphinxcontrib-fancybox
 <https://pypi.python.org/pypi/sphinxcontrib-fancybox>`_).
