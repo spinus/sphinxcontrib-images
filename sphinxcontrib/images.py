@@ -333,6 +333,7 @@ def setup(app):
     app.connect('builder-inited', configure_backend)
     app.connect('env-updated', download_images)
     app.connect('env-updated', install_backend_static_files)
+    return {'version': sphinx.__version__, 'parallel_read_safe': True}
 
 
 def main(args=sys.argv[1:]):
