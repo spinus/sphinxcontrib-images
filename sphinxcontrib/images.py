@@ -21,7 +21,6 @@ from sphinx.locale import _
 from sphinx.environment import NoUri
 from sphinx.util.osutil import copyfile
 from sphinx.util.compat import Directive
-from sphinx.util.compat import make_admonition
 from sphinx.util.console import brown
 from sphinx.util.osutil import ensuredir
 
