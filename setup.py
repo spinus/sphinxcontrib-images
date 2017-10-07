@@ -3,6 +3,7 @@
 
 import os
 import sys
+import codecs
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
@@ -31,7 +32,7 @@ setup(
     author=u'Tomasz Czyż',
     author_email='tomasz.czyz@gmail.com',
     description='Sphinx "images" extension',
-    long_description=open('README.rst').read(),
+    long_description=codecs.open('README.rst', encoding="utf8").read(),
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',

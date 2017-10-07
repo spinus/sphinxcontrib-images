@@ -1,6 +1,7 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash --pure -p python27 python34 python35 python36 python27Packages.virtualenv python34Packages.virtualenv python35Packages.virtualenv python36Packages.virtualenv
+#! nix-shell -i bash --pure -p python27 python34 python35 python36 python27Packages.virtualenv python34Packages.virtualenv python35Packages.virtualenv python36Packages.virtualenv pypy pypyPackages.virtualenv glibcLocales glibc
 set -eux
+export LANG=C.UTF-8
 
 virtualenv build/venv
 set +u
