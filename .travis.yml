@@ -1,7 +1,10 @@
 language: python
 cache:
   directories:
-    - $PWD/wheelhouse  # cache wheels so that we don't hit network everytime
+    - $PWD/wheelhouse
+    - $HOME/.cache/pip
+dist: bionic
+sudo: false
 env:
   global:
     - PIP_FIND_LINKS=$PWD/wheelhouse
@@ -10,13 +13,67 @@ install:
   - pip install -U virtualenv
 script:
     - ./setup.py test
-env:
-    - TOXENV=py27-sphinx113
-    - TOXENV=pypy-sphinx113
-    - TOXENV=py34-sphinx113
-    - TOXENV=py27-sphinx123
-    - TOXENV=pypy-sphinx123
-    - TOXENV=py34-sphinx123
-    - TOXENV=py27-sphinx13b2
-    - TOXENV=pypy-sphinx13b2
-    - TOXENV=py34-sphinx13b2
+matrix:
+  include:
+    - python: 2.7
+      env: TOXENV=py27-sphinx113
+    - python: 2.7
+      env: TOXENV=py27-sphinx123
+    - python: 2.7
+      env: TOXENV=py27-sphinx13b2
+    - python: 2.7
+      env: TOXENV=py27-sphinx133
+
+    - python: 3.4
+      env: TOXENV=py34-sphinx113
+    - python: 3.4
+      env: TOXENV=py34-sphinx123
+    - python: 3.4
+      env: TOXENV=py34-sphinx13b2
+    - python: 3.4
+      env: TOXENV=py34-sphinx133
+
+    - python: 3.5
+      env: TOXENV=py35-sphinx113
+    - python: 3.5
+      env: TOXENV=py35-sphinx123
+    - python: 3.5
+      env: TOXENV=py35-sphinx13b2
+    - python: 3.5
+      env: TOXENV=py35-sphinx133
+
+    - python: 3.6
+      env: TOXENV=py36-sphinx113
+    - python: 3.6
+      env: TOXENV=py36-sphinx123
+    - python: 3.6
+      env: TOXENV=py36-sphinx13b2
+    - python: 3.6
+      env: TOXENV=py36-sphinx133
+
+    - python: 3.7
+      env: TOXENV=py37-sphinx113
+    - python: 3.7
+      env: TOXENV=py37-sphinx123
+    - python: 3.7
+      env: TOXENV=py37-sphinx13b2
+    - python: 3.7
+      env: TOXENV=py37-sphinx133
+
+    - python: 3.8
+      env: TOXENV=py38-sphinx113
+    - python: 3.8
+      env: TOXENV=py38-sphinx123
+    - python: 3.8
+      env: TOXENV=py38-sphinx13b2
+    - python: 3.8
+      env: TOXENV=py38-sphinx133
+
+    - python: pypy3.5
+      env: TOXENV=pypy35-sphinx113
+    - python: pypy3.5
+      env: TOXENV=pypy35-sphinx123
+    - python: pypy3.5
+      env: TOXENV=pypy35-sphinx13b2
+    - python: pypy3.5
+      env: TOXENV=pypy35-sphinx133
