@@ -1,6 +1,13 @@
 language: python
+cache:
+  directories:
+    - $PWD/wheelhouse  # cache wheels so that we don't hit network everytime
+env:
+  global:
+    - PIP_FIND_LINKS=$PWD/wheelhouse
 install:
-    - pip install virtualenv
+  - pip install -U pip setuptools wheel
+  - pip install -U virtualenv
 script:
     - ./setup.py test
 env:
@@ -13,4 +20,3 @@ env:
     - TOXENV=py27-sphinx13b2
     - TOXENV=pypy-sphinx13b2
     - TOXENV=py34-sphinx13b2
-
