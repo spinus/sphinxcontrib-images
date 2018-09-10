@@ -23,6 +23,8 @@ matrix:
       env: TOXENV=py27-sphinx13b2
     - python: 2.7
       env: TOXENV=py27-sphinx133
+    - python: 2.7
+      env: TOXENV=py27-sphinx179
 
     - python: 3.4
       env: TOXENV=py34-sphinx113
@@ -32,6 +34,8 @@ matrix:
       env: TOXENV=py34-sphinx13b2
     - python: 3.4
       env: TOXENV=py34-sphinx133
+    - python: 3.4
+      env: TOXENV=py34-sphinx179
 
     - python: 3.5
       env: TOXENV=py35-sphinx113
@@ -41,6 +45,8 @@ matrix:
       env: TOXENV=py35-sphinx13b2
     - python: 3.5
       env: TOXENV=py35-sphinx133
+    - python: 3.5
+      env: TOXENV=py35-sphinx179
 
     - python: 3.6
       env: TOXENV=py36-sphinx113
@@ -50,6 +56,8 @@ matrix:
       env: TOXENV=py36-sphinx13b2
     - python: 3.6
       env: TOXENV=py36-sphinx133
+    - python: 3.6
+      env: TOXENV=py36-sphinx179
 
     - python: 3.7
       env: TOXENV=py37-sphinx113
@@ -59,6 +67,8 @@ matrix:
       env: TOXENV=py37-sphinx13b2
     - python: 3.7
       env: TOXENV=py37-sphinx133
+    - python: 3.7
+      env: TOXENV=py37-sphinx179
 
     - python: 3.8
       env: TOXENV=py38-sphinx113
@@ -68,6 +78,8 @@ matrix:
       env: TOXENV=py38-sphinx13b2
     - python: 3.8
       env: TOXENV=py38-sphinx133
+    - python: 3.8
+      env: TOXENV=py38-sphinx179
 
     - python: pypy3.5
       env: TOXENV=pypy35-sphinx113
@@ -77,3 +89,5 @@ matrix:
       env: TOXENV=pypy35-sphinx13b2
     - python: pypy3.5
       env: TOXENV=pypy35-sphinx133
+    - python: pypy3.5
+      env: TOXENV=pypy35-sphinx179

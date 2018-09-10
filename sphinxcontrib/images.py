@@ -20,7 +20,22 @@ import sphinx
 from sphinx.locale import _
 from sphinx.environment import NoUri
 from sphinx.util.osutil import copyfile
-from sphinx.util.compat import Directive
+
+try:
+    from sphinx.util.compat import Directive
+except:
+    from docutils.parsers.rst import Directive
+
+try:
+    from sphinx.util.compat import make_admonition
+except:
+    from docutils.parsers.rst.directives.admonitions import BaseAdmonition as make_admonition
+
+try:
+    from sphinx.util import status_iterator
+except ImportError:
+    pass
+
 from sphinx.util.console import brown
 from sphinx.util.osutil import ensuredir
 
@@ -205,10 +220,11 @@ def install_backend_static_files(app, env):
                              app.sphinxcontrib_images_backend.__class__.__name__)
     files_to_copy = app.sphinxcontrib_images_backend.STATIC_FILES
 
-    for source_file_path in app.builder.status_iterator(
-        files_to_copy,
-        'Copying static files for sphinxcontrib-images...',
-        brown, len(files_to_copy)):
+    for source_file_path in (app.builder.status_iterator
+        if hasattr(app.builder, 'status_iterator') else status_iterator)(
+            files_to_copy,
+            'Copying static files for sphinxcontrib-images...',
+            brown, len(files_to_copy)):
 
         dest_file_path = os.path.join(dest_path, source_file_path)
 
@@ -229,9 +245,14 @@ def install_backend_static_files(app, env):
 
 def download_images(app, env):
     conf = app.config.images_config
-    for src in app.builder.status_iterator(env.remote_images,
-                                           'Downloading remote images...',
-                                           brown, len(env.remote_images)):
+
+    for src in (app.builder.status_iterator
+        if hasattr(app.builder, 'status_iterator') else status_iterator)(
+            env.remote_images,
+            'Downloading remote images...',
+            brown,
+            len(env.remote_images)):
+                
         dst = os.path.join(env.srcdir, env.remote_images[src])
         if not os.path.isfile(dst):
             app.info('{} -> {} (downloading)'
