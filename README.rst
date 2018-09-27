@@ -23,6 +23,7 @@ Features
 * Download remote pictures and keep it in cache (if requested)
 * Support for other formats (latex, epub, ... - fallback to image directive)
 * Easy to extend (add own backend in only few lines of code)
+
   * Add other HTML "preview" solution than LightBox2
   * Add better support to non-HTML outputs
   * Preprocess images
