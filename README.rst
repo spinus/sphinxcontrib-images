@@ -1,5 +1,14 @@
+MOVED TO https://github.com/sphinx-contrib/images
+=================================================
+
+I'm not maintaining this repo and extension anymore, good people from sphinx-contrib took care of this.
+
+Please use https://github.com/sphinx-contrib/images
+
 sphinxcontrib-images
 ====================
+
+
 
 sphinxcontrib-images (formerly `sphinxcontrib-fancybox
 <https://pypi.python.org/pypi/sphinxcontrib-fancybox>`_).
